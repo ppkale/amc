@@ -1,0 +1,59 @@
+﻿#include <LPC214x.h>
+
+
+void delay(unsigned int z);
+
+
+void main()
+{
+PINSEL2= 0x00000000; // All pins are GPIO
+IO1DIR = 0xFFFFFFFF; // Lower 4 pins (P0.3….P0.0) declared output
+while(1)
+        {
+        IO1SET = 0x0FFFFFFF; // Set lower 4 pins to HIGH logic
+         delay(1000);
+        IO1CLR = 0x0FFFFFFF; // Set lower 4 pins to LOW logic
+         delay(1000);
+        }
+}
+
+
+/*void delay()
+{
+int i,j;
+        for(i=0;i<5000;i++)
+                for(j=0;j<200;j++);
+}*/
+
+
+void delay(unsigned int z)
+
+
+{
+
+
+        T0CTCR=0x0;               //Select Timer Mode
+
+
+        T0TCR=0x00;                //Timer off
+
+
+        T0PR=59999;                //Prescaler value for 1ms
+
+
+        T0TCR=0x02;                //Timer reset
+
+
+        T0TCR=0x01;                //Timer ON
+
+
+        while(T0TC<z);                //1sec delay        
+
+
+        T0TCR=0x00;                //Timer OFF
+
+
+        T0TC=0;                        //Clear the TC value. This is Optional.
+
+
+}
