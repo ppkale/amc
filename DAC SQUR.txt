@@ -1,0 +1,17 @@
+#include <lpc214x.h> 
+void delay()
+{ int i;
+for(i=0;i<60000000;i++);
+}
+int main(void)
+{ unsigned int value;
+PINSEL1 = 0x00080000; 
+while(1)
+{
+value=1023; //0x3ff in hex and 1023 in decimal
+DACR = (1<<16)|(value<<6);
+delay();
+value=0; //0x000 in hex and 0 in decimal
+DACR = (1<<16)|(value<<6);
+delay();
+}}

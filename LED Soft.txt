@@ -1,0 +1,17 @@
+#include<lpc214x.h> 
+void delay(); 
+void main() 
+{ 
+PINSEL2=0x00000000; // 0 for GPIO function IODIR1=0XFFFFFFFF; //1 for output mode while(1) 
+{ 
+IOSET1=0XFFFFFFFF; //1 to Set 
+delay(); //LEDs will remain ON 
+IOCLR1=0XFFFFFFFF; //1 to clear delay(); //LEDs will remain OFF 
+} 
+} 
+void delay() // delay function 
+{ 
+int i,j; 
+for(i=0;i<1275;i++) 
+for(j=0;j<1275;j++); 
+
