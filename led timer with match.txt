@@ -1,0 +1,42 @@
+#include<lpc214x.h>
+void delay (void);
+void PLL_Init (void);
+int main()
+{
+ PINSEL2=0x00000000;  // All Pins are GPIO
+ IODIR1=0xFFFFFFFF;   // Lower 4 pins declared output
+ PLL_Init();
+ while(1)
+ {
+   IOSET1=0xFFFFFFFF;   // Set lower 4 pins to High logic
+   delay();
+   IOCLR1=0xFFFFFFFF;   // Set lower 4 pins to Low logic
+   delay();
+   }
+ return 0;
+   }
+   void PLL_Init(void)
+   {
+     PLL0CON=0x01;
+PLL0CFG=0x24;
+PLL0FEED=0xAA;
+PLL0FEED=0x55;
+while(!(PLL0STAT&0x0400));
+PLL0CON=0x03;
+PLL0FEED=0xAA;
+PLL0FEED=0x55;
+VPBDIV=0x01;
+}
+void delay()
+{
+  T0CTCR=0x0;        // Select Timer Mode
+  T0TCR=0x00;         // Timer off
+  T0MR0=1000;
+  T0MCR=0x00000004;
+  T0PR=59999;          // Prescaler value for 1ms
+  T0TCR=0x02;         // Timer reset
+  T0TCR=0x01;         // Timer On
+  while(T0TC!=T0MR0);  // 1sec delay
+  T0TCR=0x00;                // Timer off
+  T0TC =0;
+  }
